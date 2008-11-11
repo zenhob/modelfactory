@@ -1,5 +1,4 @@
 require 'active_record'
-
 #
 # = ModelFactory
 #
