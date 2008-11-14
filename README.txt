@@ -35,6 +35,8 @@ use the latter in functional tests.
 
 Put something like this in your test helper:
 
+ require 'model_factory'
+
  module Factory
    extend ModelFactory
 
@@ -80,7 +82,7 @@ Then in your tests you use Factory methods to instantiate your test objects:
 
 == Installing ModelFactory
 
- sudo gem install model_factory
+ sudo gem install modelfactory
 
 == License
 

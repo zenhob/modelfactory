@@ -4,7 +4,7 @@ $:.unshift(File.dirname(__FILE__) + "/lib")
 require 'model_factory/version'
 
 Hoe.new('ModelFactory', ModelFactory::VERSION::STRING) do |p|
-  p.name = "model_factory"
+  p.name = "modelfactory"
   p.author = ['Justin Balthrop', 'Zack Hobson']
   p.description = "A replacement for fixtures."
   p.email = "justin@geni.com"
