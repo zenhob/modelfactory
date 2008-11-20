@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'active_record'
 
 module ModelFactory
@@ -12,9 +13,12 @@ module ModelFactory
   # object as a dependency use the special method default_* instead of
   # create_* or new_*.
   #
-  def default(class_type, defaults={})
+  def default(class_type, *args)
+    defaults   = args.pop || {}
+    prefix     = args.first
     class_name = class_type.name.demodulize.underscore
-  
+    class_name = "#{prefix}_#{class_name}" if prefix
+
     (class << self; self; end).module_eval do
       define_method "create_#{class_name}" do |*args|
         attributes = args.first || {}
@@ -78,10 +82,8 @@ module ModelFactory
     if protected_attrs or accessible_attrs
       attributes.each do |key, value|
         # Support symbols and strings.
-        [key, key.to_s].each do |attr|
-          next if protected_attrs  and not protected_attrs.include?(attr)
-          next if accessible_attrs and accessible_attrs.include?(attr)
-        end
+        next if protected_attrs  and not (protected_attrs.include?(key) or protected_attrs.include?(key.to_s))
+        next if accessible_attrs and (accessible_attrs.include?(key) or accessible_attrs.include?(key.to_s))
         modified = true
         instance.send("#{key}=", value)
       end

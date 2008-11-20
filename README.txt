@@ -80,6 +80,36 @@ Then in your tests you use Factory methods to instantiate your test objects:
    assert !user.likes_blue?
  end
 
+You can also specify types of models in your calls to defaults, but be careful. This can
+easily start to become a lot like fixtures:
+
+ module Factory
+   extend ModelFactory
+
+   default User, :joined {
+     :first_name => 'Harry',
+     :last_name => 'Manchester',
+     :joined => true,
+     :set_password => true,
+   }
+  
+   default User, :unjoined {
+     :first_name => 'Harry',
+     :last_name => 'Manchester',
+     :joined => false,
+     :set_password => false,
+   }
+ end
+
+Then in your test:
+
+ def test_something
+   user1 = Factory.create_joined_user(:first_name => 'Bill')
+   user2 = Factory.create_unjoined_user(:first_name => 'Sandy')
+   assert  user1.joined?
+   assert !user2.joined?
+ end
+
 == Installing ModelFactory
 
  sudo gem install modelfactory
