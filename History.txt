@@ -1,3 +1,7 @@
+== 0.8.0 2008-12-10
+
+* added the ability to specify multiple named types of defaults
+
 == 0.7.0 2008-11-11
 
 * Documentation and rubygem

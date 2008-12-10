@@ -3,6 +3,9 @@
 ModelFactory is a module designed to replace the use of fixtures for testing
 Rails applications.
 
+The best explanation for the motivation behind ModelFactory (and the inspiration
+for this module) comes from Dan Manges' blog: http://www.dcmanges.com/blog/38
+
 The idea is that instead of keeping your test data in a nearly opaque fixture
 file, you generate data in the test itself using a custom factory API designed
 for your test environment.
@@ -16,13 +19,18 @@ the database.
 
 === A Note About Defaults
 
-When writing tests that use factory-generated objects, it's important never
-to depend on default values in your test assertions. If you depend on defaults
-in your tests they become more fragile and the intention is harder to discern.
+The purpose of default values is to generate valid instances, not to serve as
+replacements for fixture data. When writing tests that use factory-generated
+objects, it's important never to depend on default values in your test assertions.
+If you depend on defaults in your tests they become more fragile and the intention
+is harder to discern. Alway override values you care about when using factory objects.
 
 If you find yourself repeating the same initialization to avoid using defaults,
 consider whether it would be appropriate to add a custom toplevel method to
-your factory module that includes this initialization.
+your factory module that includes this initialization. You can also specify
+multiple named types of defaults, described below. Be aware that both of these
+techniques should be used sparingly, as they can have some of the same issues
+as fixtures.
 
 === A Note About ID Generation
 
