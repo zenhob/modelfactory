@@ -13,9 +13,9 @@ module ModelFactory
   # object as a dependency use the special method default_* instead of
   # create_* or new_*.
   #
-  def default(class_type, *args)
-    defaults   = args.pop || {}
-    prefix     = args.first
+  def default(class_type, *default_args)
+    defaults   = default_args.pop || {}
+    prefix     = default_args.first
     class_name = class_type.name.demodulize.underscore
     class_name = "#{prefix}_#{class_name}" if prefix
 
@@ -57,8 +57,8 @@ module ModelFactory
   def default_closure(class_type, attributes, defaults = {}) # :nodoc:
     lambda do |create_or_new|
       case create_or_new
-      when :new    : new_instance(class_type, attributes, defaults)
-      when :create : create_instance(class_type, attributes, defaults)
+      when :new    ; new_instance(class_type, attributes, defaults)
+      when :create ; create_instance(class_type, attributes, defaults)
       end
     end
   end
@@ -82,7 +82,7 @@ module ModelFactory
     if protected_attrs or accessible_attrs
       attributes.each do |key, value|
         # Support symbols and strings.
-        next if protected_attrs  and not (protected_attrs.include?(key) or protected_attrs.include?(key.to_s))
+        next if protected_attrs  and (not protected_attrs.include?(key) or protected_attrs.include?(key.to_s))
         next if accessible_attrs and (accessible_attrs.include?(key) or accessible_attrs.include?(key.to_s))
         modified = true
         instance.send("#{key}=", value)

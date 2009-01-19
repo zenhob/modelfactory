@@ -4,3 +4,4 @@ doc
 InstalledFiles
 website
 pkg
+*.sw[op]
