@@ -15,7 +15,7 @@ Hoe.new('ModelFactory', ModelFactory::VERSION::STRING) do |p|
   p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
   p.test_globs = ["test/**/*_test.rb"]
   p.clean_globs |= ['**/.*.sw?', '*.gem', '.config', '**/.DS_Store']
-  p.extra_dev_deps = ['mocha', 'thoughtbot-shoulda']
+  p.extra_dev_deps = ['mocha', 'thoughtbot-shoulda', 'sqlite3-ruby']
 end
 
 
