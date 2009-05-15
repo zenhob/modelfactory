@@ -1,24 +1,38 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-ModelFactory.configure do
-  default MFTest::Default, { :bar => 'baz' }
-end
 
 class ModelFactoryTest < Test::Unit::TestCase
-  should "not create new records" do
-    assert !MFTest::Default.factory.create(:baz => 4).new_record?
+
+  should "not instantiate when using new" do
+    assert Widget.factory.new.new_record?
   end
 
-  should "initialize defaults with no arguments" do
-    assert_equal 'baz', MFTest::Default.factory.create.bar
+  should "instantiate when using create" do
+    assert !Widget.factory.create.new_record?
   end
 
-  should "initialize defaults with an unspecified argument" do
-    assert_equal 'baz', MFTest::Default.factory.create(:baz => 4).bar
+  should "raise on creation of invalid records" do
+    assert_raises(ActiveRecord::RecordInvalid) { StrictWidget.factory.create }
   end
-
-  should "initialize with an unspecified argument" do
-    assert_equal 4, MFTest::Default.factory.create(:baz => 4).baz
+  
+  context "with a specified default" do
+    setup do
+      ModelFactory.configure do
+        default(Widget) {|w| w.name = 'foobaz' }
+      end
+    end
+  
+    should "initialize defaults with no arguments" do
+      assert_equal 'foobaz', Widget.factory.create.name
+    end
+  
+    should "initialize defaults with an unspecified argument" do
+      assert_equal 'foobaz', Widget.factory.create(:price => 4.0).name
+    end
+  
+    should "initialize with an unspecified argument" do
+      assert_equal 4, Widget.factory.create(:price => 4.0).price
+    end
   end
 end
 
