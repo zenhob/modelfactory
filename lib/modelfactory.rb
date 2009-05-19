@@ -49,7 +49,7 @@ module ModelFactory
 
     def initialize(&block)
       @class_opts = {}
-      instance_eval &block if block_given?
+      instance_eval(&block) if block_given?
     end
 
     # All method calls set up a configuration named after the method.

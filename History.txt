@@ -1,3 +1,7 @@
+== 0.8.9 2009-05-19
+* Renamed the required lib to 'modelfactory'
+* Completely redesigned API, see the documentation in README.txt
+
 == 0.8.1 2009-05-08
 * Ruby 1.9.1 compatibility
 

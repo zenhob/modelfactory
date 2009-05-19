@@ -1,4 +1,4 @@
-class FixtureConverter
+class FixtureConverter # :nodoc:
   def initialize(opts = {})
     @body   = []
     @header = []

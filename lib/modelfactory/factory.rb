@@ -1,6 +1,6 @@
-module ModelFactory
+module ModelFactory # :nodoc:
   # This API allows you to instantiate models.
-  class Factory
+  class Factory # :nodoc:
     def initialize(klass, opt)
       @counter = 0
       @class = klass
