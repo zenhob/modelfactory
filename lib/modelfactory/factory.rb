@@ -2,6 +2,7 @@ module ModelFactory
   # This API allows you to instantiate models.
   class Factory
     def initialize(klass, opt)
+      @counter = 0
       @class = klass
       @options = opt || {}
     end
@@ -27,9 +28,20 @@ module ModelFactory
 
    private
 
-    def new_named(name, opt = {})
+    def next_counter
+      @counter += 1
+    end
+
+    def new_named(name, opt = {}, &block)
       instance = @class.new
-      @options[name].call(instance) if @options[name]
+      if @options[name]
+        case @options[name].arity
+        when 2
+          @options[name].call(instance, next_counter) if @options[name]
+        else
+          @options[name].call(instance) if @options[name]
+        end
+      end
       opt.each {|k,v| instance.send("#{k}=", v) }
       yield instance if block_given?
       instance
@@ -38,6 +50,7 @@ module ModelFactory
     def create_named(name, opt = {}, &block)
       instance = new_named(name, opt, &block)
       instance.save!
+      instance.reload
       instance
     end
 

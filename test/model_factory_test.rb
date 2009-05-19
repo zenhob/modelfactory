@@ -14,6 +14,24 @@ class ModelFactoryTest < Test::Unit::TestCase
     assert_raises(ActiveRecord::RecordInvalid) { StrictWidget.factory.create }
   end
   
+  context "with a specified default that uses automatic numbering" do
+    setup do
+      ModelFactory.configure do
+        default(Widget) {|w, i| w.price = i }
+      end
+    end
+  
+    should "start counting at 1 after configuration" do
+      assert_equal 1.0, Widget.factory.create.price
+    end
+
+    should "generate a unique sequence" do
+      w = []
+      3.times { w << Widget.factory.create.price }
+      assert_equal w.uniq, w
+    end
+  end
+
   context "with a specified default" do
     setup do
       ModelFactory.configure do
