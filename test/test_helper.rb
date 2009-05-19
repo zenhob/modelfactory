@@ -3,8 +3,6 @@ require 'rubygems'
 require 'mocha'
 require 'shoulda'
 
-require File.dirname(__FILE__) + '/../lib/modelfactory'
-
 require 'active_record'
 ActiveRecord::Base.establish_connection(
   :database => ':memory:',
