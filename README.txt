@@ -26,16 +26,49 @@ opaque ActiveRecord objects whose contents are unimportant.
 
  ModelFactory[User].create.name  # => 'Factory User'
 
+Defaults can be overriden on instance creation. By not specifying unimportant
+values, the intention of your tests becomes clearer:
+
+ def test_welcome
+    user = ModelFactory[User].create(:name => 'bob')
+    assert_equal 'Welcome, bob!', user.welcome
+ end
+
 If you don't care for the factory creation syntax, ModelFactory defines the
 factory class method on ActiveRecord models. The following is equivalent
 to ModelFactory[User].create:
 
  User.factory.create
 
-Since factory-created instances are meant to be valid, you will probably
-need a way to generate unique values. ModelFactory keeps a counter for each
-type that increments when each new instance is created. This counter is passed
-to configuration blocks to make it easier to generate unique values:
+When you use a factory to create an instance, the save! and reload methods are
+called before the instance is returned. This means instances must be valid after
+being initialized by the factory, or an ActiveRecord validation error will be
+raised.
+
+ class Widget < ActiveRecord::Base
+   validates_presence_of :name, :desc
+ end
+
+ ModelFactory.configure do
+   default(Widget) {|w| w.name = 'widget' }
+ end
+
+ # Raises an error because no desc was provided:
+ Widget.factory.create
+
+ # Doesn't raise, a desc is provided:
+ Widget.factory.create(:desc => 'widget desc')
+
+ # Doesn't raise, required values are defined in the default factory:
+ ModelFactory.configure do
+   default(Widget) {|w| w.name = 'widget'; w.desc = 'widget desc' }
+ end
+ Widget.factory.create
+
+Since creating valid objects usually means having unique values, ModelFactory
+keeps a counter for each type that increments when each new instance is
+created. This counter is passed to model initialization blocks to make it
+easier to generate unique values:
 
  ModelFactory.configuration do
    default(User) do |m, i|
@@ -46,14 +79,6 @@ to configuration blocks to make it easier to generate unique values:
 
  User.factory.create.name  # => 'Factory User 1'
  User.factory.create.email # => 'user2@factory.ws'
-
-Defaults can be overriden on instance creation. By not specifying unimportant
-values, the intention of your tests becomes clearer:
-
- def test_welcome
-    user = ModelFactory[User].create(:name => 'bob')
-    assert_equal 'Welcome, bob!', user.welcome
- end
 
 It's possible to configure named factories:
 
@@ -68,14 +93,6 @@ It's possible to configure named factories:
 
 Named factories do not inherit anything from the default, so you'll still need to
 provide enough to data to allow the creation of valid objects.
-
-=== A Note About Defaults
-
-The purpose of default values is to generate valid instances, not to serve as
-replacements for fixture data. When writing tests that use factory-generated
-objects, it's important never to depend on default values in your test assertions.
-If you depend on defaults in your tests they become more fragile and the intention
-is harder to discern. Alway override values you care about when using factory objects.
 
 == Installing ModelFactory
 
