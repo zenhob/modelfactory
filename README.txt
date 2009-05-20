@@ -92,7 +92,7 @@ It's possible to configure named factories:
  User.factory.create_admin.admin  # => true
 
 Named factories do not inherit anything from the default, so you'll still need to
-provide enough to data to allow the creation of valid objects.
+provide enough data to allow the creation of valid objects.
 
 == Installing ModelFactory
 
