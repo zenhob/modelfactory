@@ -34,16 +34,7 @@ module ModelFactory # :nodoc:
 
     def new_named(name, opt = {}, &block)
       instance = @class.new
-      if @options[name]
-        case @options[name].arity
-        when 2
-          @options[name].call(instance, next_counter) if @options[name]
-        else
-          @options[name].call(instance) if @options[name]
-        end
-      end
-      opt.each {|k,v| instance.send("#{k}=", v) }
-      yield instance if block_given?
+      InstanceBuilder.new(instance, opt, next_counter, &@options[name])
       instance
     end
 
@@ -54,6 +45,23 @@ module ModelFactory # :nodoc:
       instance
     end
 
+  end
+
+  class InstanceBuilder # :nodoc:
+    def initialize(instance, params, counter, &block)
+      @instance = instance
+      @params = params
+      @counter = counter
+      @params.each { |attr, value| @instance.send "#{attr}=", value }
+      instance_eval(&block) if block_given?
+    end
+
+    def method_missing(method, &block)
+      if block_given? && !@params.key?(method.to_sym)
+        @instance.send "#{method}=",
+          (block.arity == 1) ? block.call(@counter) : block.call
+      end
+    end
   end
 
 end

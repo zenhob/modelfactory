@@ -18,9 +18,9 @@ opaque ActiveRecord objects whose contents are unimportant.
  require 'modelfactory'
 
  ModelFactory.configuration do
-   default(User) do |m|
-     m.name = "Factory User"
-     m.email = "user@factory.ws"
+   default(User) do
+     name  { "Factory User" }
+     email { "user@factory.ws" }
    end
  end
 
@@ -50,7 +50,7 @@ raised.
  end
 
  ModelFactory.configure do
-   default(Widget) {|w| w.name = 'widget' }
+   default(Widget) { name { 'widget' } }
  end
 
  # Raises an error because no desc was provided:
@@ -61,7 +61,10 @@ raised.
 
  # Doesn't raise, required values are defined in the default factory:
  ModelFactory.configure do
-   default(Widget) {|w| w.name = 'widget'; w.desc = 'widget desc' }
+   default(Widget) do
+     name { 'widget' }
+     desc { 'widget desc' }
+   end
  end
  Widget.factory.create
 
@@ -71,9 +74,9 @@ created. This counter is passed to model initialization blocks to make it
 easier to generate unique values:
 
  ModelFactory.configuration do
-   default(User) do |m, i|
-     m.name = "Factory User #{i}"
-     m.email = "user#{i}@factory.ws"
+   default(User) do
+     name  {|i| "Factory User #{i}" }
+     email {|i| "user#{i}@factory.ws" }
    end
  end
 
@@ -83,9 +86,9 @@ easier to generate unique values:
 It's possible to configure named factories:
 
  ModelFactory.configuration do
-   admin(User) do |m, i|
-     m.name = "Admin User #{i}"
-     m.admin = true
+   admin(User) do
+     name  {|i| "Admin User #{i}" }
+     admin { true }
    end
  end
 

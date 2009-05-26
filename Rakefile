@@ -17,7 +17,7 @@ Hoe.new('ModelFactory', ModelFactory::VERSION::STRING) do |p|
   p.test_globs = ["test/**/*_test.rb"]
   p.clean_globs |= ['**/.*.sw?', '*.gem', '.config', '**/.DS_Store']
   p.extra_dev_deps = %w[
-    active_record mocha thoughtbot-shoulda sqlite3-ruby mislav-hanna 
+    activerecord mocha thoughtbot-shoulda sqlite3-ruby mislav-hanna 
   ]
 end
 

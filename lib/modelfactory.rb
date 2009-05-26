@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'active_record'
-require 'modelfactory/factory'
-require 'modelfactory/legacy'
+require File.dirname(__FILE__) + '/modelfactory/factory'
+require File.dirname(__FILE__) + '/modelfactory/legacy'
 
 ActiveRecord::Base.class_eval do
   def self.factory ; ModelFactory[self] ; end
