@@ -1,3 +1,7 @@
+== 0.9.0 2009-05-27
+* More API changes
+* Built-in counters for generating values
+
 == 0.8.9 2009-05-19
 * Renamed the required lib to 'modelfactory'
 * Completely redesigned API, see the documentation in README.txt

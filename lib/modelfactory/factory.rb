@@ -1,3 +1,5 @@
+require 'active_support' # instance_exec
+
 module ModelFactory # :nodoc:
   # This API allows you to instantiate models.
   class Factory # :nodoc:
@@ -59,7 +61,9 @@ module ModelFactory # :nodoc:
     def method_missing(method, &block)
       if block_given? && !@params.key?(method.to_sym)
         @instance.send "#{method}=",
-          (block.arity == 1) ? block.call(@counter) : block.call
+          (block.arity == 1) ?
+            @instance.instance_exec(@counter, &block) :
+            @instance.instance_eval(&block)
       end
     end
   end
