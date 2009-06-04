@@ -17,7 +17,7 @@ opaque ActiveRecord objects whose contents are unimportant.
 
  require 'modelfactory'
 
- ModelFactory.configuration do
+ ModelFactory.configure do
    default(User) do
      name  { "Factory User" }
      email { "user@factory.ws" }
@@ -73,7 +73,7 @@ keeps a counter for each type that increments when each new instance is
 created. This counter is passed to model initialization blocks to make it
 easier to generate unique values:
 
- ModelFactory.configuration do
+ ModelFactory.configure do
    default(User) do
      name  {|i| "Factory User #{i}" }
      email {|i| "user#{i}@factory.ws" }
@@ -85,7 +85,7 @@ easier to generate unique values:
 
 It's possible to configure named factories:
 
- ModelFactory.configuration do
+ ModelFactory.configure do
    admin(User) do
      name  {|i| "Admin User #{i}" }
      admin { true }
