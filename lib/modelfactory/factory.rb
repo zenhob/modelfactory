@@ -34,13 +34,13 @@ module ModelFactory # :nodoc:
       @counter += 1
     end
 
-    def new_named(name, opt = {}, &block)
+    def new_named(name, opt, &block)
       instance = @class.new
       InstanceBuilder.new(instance, opt, next_counter, &@options[name])
       instance
     end
 
-    def create_named(name, opt = {}, &block)
+    def create_named(name, opt, &block)
       instance = new_named(name, opt, &block)
       instance.save!
       instance.reload
@@ -52,7 +52,7 @@ module ModelFactory # :nodoc:
   class InstanceBuilder # :nodoc:
     def initialize(instance, params, counter, &block)
       @instance = instance
-      @params = params
+      @params = params || {}
       @counter = counter
       @params.each { |attr, value| @instance.send "#{attr}=", value }
       instance_eval(&block) if block_given?

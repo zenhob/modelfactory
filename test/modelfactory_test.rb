@@ -15,6 +15,10 @@ class ModelFactoryTest < Test::Unit::TestCase
     assert_raises(ActiveRecord::RecordInvalid) { StrictWidget.factory.create }
   end
   
+  should "not raise on nil params" do
+    assert_nothing_raised { Widget.factory.create(nil) }
+  end
+  
   context "with a specified default" do
     setup do
       ModelFactory.configure do
