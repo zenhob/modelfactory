@@ -1,3 +1,7 @@
+== 0.9.1 2009-06-04
+* Error was being raised when nil is passed to create, fixed.
+* Corrected API documentation in README.txt.
+
 == 0.9.0 2009-06-04
 * More API changes
 * Built-in counters for generating values
