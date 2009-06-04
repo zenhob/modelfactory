@@ -1,4 +1,4 @@
-== 0.9.0 2009-05-27
+== 0.9.0 2009-06-04
 * More API changes
 * Built-in counters for generating values
 

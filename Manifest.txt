@@ -14,9 +14,13 @@ script/fixtures2factories
 script/generate
 script/txt2html
 setup.rb
+test/counter_test.rb
+test/fixtures/category.rb
 test/fixtures/schema.rb
 test/fixtures/strict_widget.rb
 test/fixtures/widget.rb
-test/model_factory_legacy_test.rb
-test/model_factory_test.rb
+test/legacy_test.rb
+test/modelfactory_test.rb
+test/named_test.rb
+test/relation_test.rb
 test/test_helper.rb
