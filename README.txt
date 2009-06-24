@@ -26,7 +26,7 @@ opaque ActiveRecord objects whose contents are unimportant.
 
  ModelFactory[User].create.name  # => 'Factory User'
 
-Defaults can be overriden on instance creation. By not specifying unimportant
+Defaults can be overridden on instance creation. By not specifying unimportant
 values, the intention of your tests becomes clearer:
 
  def test_welcome
