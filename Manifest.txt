@@ -3,14 +3,12 @@ License.txt
 Manifest.txt
 README.txt
 Rakefile
-lib/fixture_converter.rb
 lib/model_factory.rb
 lib/modelfactory.rb
 lib/modelfactory/factory.rb
 lib/modelfactory/legacy.rb
 lib/modelfactory/version.rb
 script/destroy
-script/fixtures2factories
 script/generate
 script/txt2html
 setup.rb
