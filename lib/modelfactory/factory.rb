@@ -42,8 +42,8 @@ module ModelFactory # :nodoc:
 
     def create_named(name, opt, &block)
       instance = new_named(name, opt, &block)
-      instance.save!
-      instance.reload
+      instance.save!  if instance.respond_to? :save!
+      instance.reload if instance.respond_to? :reload
       instance
     end
 
