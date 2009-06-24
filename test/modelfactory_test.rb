@@ -18,7 +18,27 @@ class ModelFactoryTest < Test::Unit::TestCase
   should "not raise on nil params" do
     assert_nothing_raised { Widget.factory.create(nil) }
   end
-  
+
+  should "permit use of overloaded names in configs" do
+   assert_nothing_raised do
+     ModelFactory.configure do
+       inspect(Widget) { name {'foobaz' } }
+       self.puts(Widget) { name {'fooboo' } }
+     end
+   end
+   assert_equal Widget.factory.create_inspect.name, 'foobaz'
+   assert_equal Widget.factory.create_puts.name, 'fooboo'
+  end
+
+  should "permit use of overloaded names in fields" do
+   assert_nothing_raised do
+     ModelFactory.configure do
+       default(Widget) { self.puts {'shazbot' } }
+     end
+   end
+   assert_equal Widget.factory.create.puts, 'shazbot'
+  end
+
   context "with a specified default" do
     setup do
       ModelFactory.configure do

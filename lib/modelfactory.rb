@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'active_record'
 require File.dirname(__FILE__) + '/modelfactory/factory'
 require File.dirname(__FILE__) + '/modelfactory/legacy'
@@ -56,6 +55,17 @@ module ModelFactory
     def method_missing(method, klass, &block)
       @class_opts[klass] ||= {}
       @class_opts[klass][method] = block
+    end
+
+    # Route common method names to method_missing.
+    # XXX There must be a better way to do this, assuming we should be doing
+    # this at all. BasicObject doesn't work because I lose instance_eval.
+    [ :inspect, :send, :id, :object_id ].each do |meth|
+      eval %{
+        def #{meth}(*args, &block)
+          method_missing(:#{meth}, *args, &block)
+        end
+      }
     end
   end
 end
