@@ -1,10 +1,10 @@
 require 'rubygems'
 require 'hoe'
 require 'hanna/rdoctask'
-$:.unshift(File.dirname(__FILE__) + "/lib")
 require 'modelfactory/version'
 
-Hoe.new('ModelFactory', ModelFactory::VERSION::STRING) do |p|
+Hoe.spec('ModelFactory') do |p|
+  p.version = ModelFactory::VERSION::STRING
   p.name = "modelfactory"
   p.author = ['Justin Balthrop', 'Zack Hobson']
   p.description = "A replacement for fixtures."
@@ -21,5 +21,4 @@ Hoe.new('ModelFactory', ModelFactory::VERSION::STRING) do |p|
     activerecord mocha thoughtbot-shoulda sqlite3-ruby mislav-hanna 
   ]
 end
-
 
