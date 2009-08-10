@@ -39,6 +39,13 @@ class ModelFactoryTest < Test::Unit::TestCase
    assert_equal Widget.factory.create.puts, 'shazbot'
   end
 
+  should "use parent class options" do
+   ModelFactory.configure do
+     default(Widget) { name { 'shazbot' } }
+   end
+   assert_equal AnotherWidget.factory.create.name, 'shazbot'
+  end
+
   context "with a specified default" do
     setup do
       ModelFactory.configure do

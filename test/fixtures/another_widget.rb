@@ -1,0 +1,3 @@
+class AnotherWidget < Widget
+end
+

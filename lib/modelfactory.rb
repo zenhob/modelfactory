@@ -38,7 +38,12 @@ module ModelFactory
 
     # Wraps a given class in a configured Factory instance.
     def wrap(klass)
-      @factory[klass] ||= Factory.new(klass, @config.class_opts[klass])
+      # We might have a definition for a parent class. If so, use that.
+      target = klass
+      while target && !@config.class_opts.key?(target)
+        target = target.superclass
+      end
+      @factory[klass] ||= Factory.new(klass, @config.class_opts[target])
     end
   end
 
